@@ -11,8 +11,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.json.JSONException;
-import org.json.JSONObject; 
 
 import org.omg.CORBA.ORB;
 import org.omg.CosNaming.NamingContextExt;
@@ -20,7 +18,6 @@ import org.omg.CosNaming.NamingContextExtHelper;
 
 import GraphCore.GraphCoreTest;
 import GraphCore.GraphCoreTestHelper;
-import Model.DataSetModel;
 
 /**
  * Servlet implementation class GraphCoreAPI
@@ -41,12 +38,19 @@ public class GraphCoreAPI extends HttpServlet {
 	 */
 public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 		
-		String requestUrl = request.getRequestURI();
-		System.out.println("This is the RequestURL >> "+ requestUrl);
-		String country = requestUrl.substring("/GraphCoreAPI/".length());
-		System.out.println("This is the Request to the Server >> "+ country);
-		String capital=null;
 		
+		/*
+		* *******************
+		* 
+		String requestUrl = request.getRequestURI();	
+	 	System.out.println("This is the RequestURL >> "+ requestUrl);		 
+		System.out.println("This is the Request to the Server >> "+ country);
+		***********************/
+		//String country = requestUrl.substring("/GraphCoreAPI/".length());
+		//String capital=null;
+		
+		String country = request.getParameter("country");
+		String capital=null;		
 		try {
 			java.util.Properties props = new java.util.Properties();
 			java.lang.String[] args = new java.lang.String[0];
@@ -62,7 +66,9 @@ public void doGet(HttpServletRequest request, HttpServletResponse response) thro
 		}
 		response.setContentType("text/html");
 	      PrintWriter out = response.getWriter();
-	      System.out.println("This is the responce from the Server >> "+capital); 
+	      /*
+	       * System.out.println("This is the responce from the Server >> "+capital); 
+	       * */
 	      out.println("<h1>" + capital + "</h1>");
 	}
 	
@@ -73,17 +79,14 @@ public void doGet(HttpServletRequest request, HttpServletResponse response) thro
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		//doGet(request, response);
-     /************   try {
-			JSONObject myResponse = new JSONObject(response.toString());
-		} catch (JSONException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} ****************/
-		String requestUrl = request.getRequestURI();		
+
 		String country = request.getParameter("country");
 		String capital = request.getParameter("capital");
-		System.out.println("This is the RequestURL >> "+ requestUrl);
-		System.out.println("This is the Request to the Server >> "+ country);
+		/******************************
+		 * System.out.println("This is the RequestURL >> "+ requestUrl);
+		System.out.println("This is the Request to the Server country>> "+ country);
+		System.out.println("This is the Request to the Server capital>> "+ capital);
+		*********************************/
 		try {
 			java.util.Properties props = new java.util.Properties();
 			java.lang.String[] args = new java.lang.String[0];
