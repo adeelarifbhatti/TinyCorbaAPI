@@ -11,12 +11,16 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.json.JSONException;
+import org.json.JSONObject; 
+
 import org.omg.CORBA.ORB;
 import org.omg.CosNaming.NamingContextExt;
 import org.omg.CosNaming.NamingContextExtHelper;
 
 import GraphCore.GraphCoreTest;
 import GraphCore.GraphCoreTestHelper;
+import Model.DataSetModel;
 
 /**
  * Servlet implementation class GraphCoreAPI
@@ -68,7 +72,36 @@ public void doGet(HttpServletRequest request, HttpServletResponse response) thro
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		doGet(request, response);
+		//doGet(request, response);
+     /************   try {
+			JSONObject myResponse = new JSONObject(response.toString());
+		} catch (JSONException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} ****************/
+		String requestUrl = request.getRequestURI();		
+		String country = request.getParameter("country");
+		String capital = request.getParameter("capital");
+		System.out.println("This is the RequestURL >> "+ requestUrl);
+		System.out.println("This is the Request to the Server >> "+ country);
+		try {
+			java.util.Properties props = new java.util.Properties();
+			java.lang.String[] args = new java.lang.String[0];
+			ORB orb = ORB.init(args,props);			
+			org.omg.CORBA.Object objRef = orb.resolve_initial_references("NameService");
+			NamingContextExt ncRef = NamingContextExtHelper.narrow(objRef);
+			GraphCoreTest graphCoreTest = GraphCoreTestHelper.narrow(ncRef.resolve_str("GraphCore"));
+			graphCoreTest.putValues(country, capital);
+		}		
+		catch(Exception e) {
+			System.out.println("Client error "+e.getMessage());
+			e.printStackTrace(System.out);			
+		}
+		response.setContentType("text/html");
+	      PrintWriter out = response.getWriter();
+	      System.out.println("Added >> "+country); 
+	      out.println("<h1>" + country + " Added</h1>");
 	}
+	
 
 }
