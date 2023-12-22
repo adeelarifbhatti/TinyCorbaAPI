@@ -1,0 +1,8 @@
+FROM tomcat:8.5.47-jdk8-openjdk
+LABEL maintainer="adeelarifbhatti@gmail.com"
+COPY graphcore-Server.jar /usr/local/tomcat/webapps/
+COPY GraphCoreApi.war /usr/local/tomcat/webapps/
+COPY start-AllInOne.sh /usr/local/bin/
+EXPOSE 8080 900
+RUN chmod +x /usr/local/bin/start-AllInOne.sh
+ENTRYPOINT ["/usr/local/bin/start-AllInOne.sh"]

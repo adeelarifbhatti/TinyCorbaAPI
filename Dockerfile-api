@@ -1,0 +1,9 @@
+FROM tomcat:8.5.47-jdk8-openjdk
+LABEL maintainer="adeelarifbhatti@gmail.com"
+COPY GraphCoreApi.war /usr/local/tomcat/webapps/
+COPY start-api.sh /usr/local/bin/start-api.sh
+EXPOSE 8080
+#CMD ["catalina.sh", "run"]
+RUN chmod +x /usr/local/bin/start-api.sh
+ENTRYPOINT ["/usr/local/bin/start-api.sh"]
+

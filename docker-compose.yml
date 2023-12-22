@@ -1,0 +1,20 @@
+version: "2.0"
+services:
+
+ graphcore-api:
+  build:
+   context: .
+   dockerfile: Dockerfile-api
+  ports:
+   -  "80:8080"
+   -  "900:900"
+
+ graphcore-server:
+  build:
+   context: .
+   dockerfile: Dockerfile
+  links:
+    - graphcore-api
+  depends_on:
+    - graphcore-api
+
